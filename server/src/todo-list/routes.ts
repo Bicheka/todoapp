@@ -1,13 +1,20 @@
 import express from "express";
-
+import {
+  createTodoList,
+  deleteTodoList,
+  getAllTodoLists,
+  updateField,
+  updateTodoList,
+} from "./controller";
 const router = express.Router();
 
-router.get("/", )
+router.get("/", getAllTodoLists);
 
-router.post("/", )
+router.post("/", createTodoList);
 
-router.put("/:i", )
+router.put("/specific/:id", updateField);
+router.put("/:id", updateTodoList);
 
-router.delete("/:i", )
+router.delete("/:id", deleteTodoList);
 
 export default router;
