@@ -1,22 +1,16 @@
-import type { QueryResult } from "pg";
 import pool from "../database/db";
-export interface TodoList {
-  id: number;
-  title: string;
-  description?: string;
-  created_at?: Date;
-  updated_at?: Date;
-}
-export const getAllTodoListsService = async (): Promise<TodoList[]> => {
-  const result = await pool.query(`SELECT * FROM users`);
+import type { TodoListDTO, TodoListResponseDTO } from "./todo-list-dto";
+
+export const getAllTodoLists = async (): Promise<TodoListResponseDTO[]> => {
+  const result = await pool.query(`SELECT * FROM todo_lists`);
   return result.rows;
 };
 
-export const createTodoListService = async (
+export const createTodoList = async (
   list_title: string,
   done: number,
   total: number
-): Promise<TodoList> => {
+): Promise<TodoListResponseDTO> => {
   const result = await pool.query(
     `INSERT INTO todo_lists (list_title, done, total)
       VALUES ($1, $2, $3)
@@ -28,11 +22,10 @@ export const createTodoListService = async (
   return result.rows[0]; // ✅ return a single TodoList, not the whole query result
 };
 
-
-export const updateTodoListField = async (
+export const updateTodoList = async (
   id: number,
-  updatedFields: Record<string, any>
-): Promise<TodoList> => {
+  updatedFields: Partial<TodoListDTO>
+): Promise<TodoListResponseDTO> => {
   const keys = Object.keys(updatedFields);
   const values = Object.values(updatedFields);
 
@@ -49,21 +42,12 @@ export const updateTodoListField = async (
     RETURNING *;
   `;
 
-  const result: QueryResult<TodoList> = await pool.query(query, [
-    ...values,
-    id,
-  ]);
-
-  // Ensure an updated row was returned
+  const result = await pool.query(query, [...values, id]);
   const updated = result.rows[0];
-  if (!updated) {
-    throw new Error(`TodoList with id ${id} not found`);
-  }
+  if (!updated) throw new Error(`TodoList with id ${id} not found`);
 
   return updated;
 };
-
-export const updateTodoList = async (): Promise<void> => {};
 
 export const deleteTodoList = async (id: number): Promise<void> => {
   await pool.query("DELETE FROM todo_lists WHERE id = $1", [id]);

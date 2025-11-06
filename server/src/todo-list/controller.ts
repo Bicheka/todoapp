@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import pool from "../database/db";
-import { updateTodoListField } from "./service";
+import * as service from "./service";
+import type { TodoListDTO, TodoListResponseDTO } from "./todo-list-dto";
 
 export const getAllTodoLists = async (_: Request, res: Response) => {
   try {
@@ -33,38 +34,20 @@ export const createTodoList = async (
   }
 };
 
-export const updateField = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const { id } = req.params;
-  const fields = req.body;
-
-  if (!fields || Object.keys(fields).length === 0) {
-    next(new Error("No fields were updated"));
-  }
-
+export const updateTodoList = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    updateTodoListField(Number(id), fields);
+    const id = req.params.id;
+    if(!id) {
+      next(new Error("Invalid id format"));
+    }
+    // Extract body (list_title, done, total, etc.)
+    const updatedFields: Partial<TodoListDTO> = req.body;
+
+    const response: TodoListResponseDTO = await service.updateTodoList(Number(id), updatedFields);
+
+    res.send(response).status(200);
   } catch (err) {
     next(err);
-  }
-};
-
-export const updateTodoList = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-    const { lis_title, done, total } = req.body;
-    const response = await pool.query(
-      `
-      UPDATE todo-lists SET list_title = $1, done=$2, total=$3 WHERE id=$4 RETURNING *
-      `,
-      [lis_title, done, total, id]
-    );
-    res.send(response).status(200);
-  } catch (error) {
-    // Send to error middleware
   }
 };
 
