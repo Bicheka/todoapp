@@ -9,7 +9,7 @@ const app = express();
 
 const PORT = process.env.PORT || 3001;
 
-initTables();
+await initTables();
 
 // Middleware
 app.use(express.json());

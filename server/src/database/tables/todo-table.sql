@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS todos (
     task TEXT,
     priority INT,
     completed BOOLEAN DEFAULT false,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
 
     -- Foreign key constraint
     CONSTRAINT fk_list

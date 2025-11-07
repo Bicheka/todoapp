@@ -23,10 +23,10 @@ function loadSql(relativePath: string) {
   return fs.readFileSync(import.meta.dirname + relativePath, "utf8");
 }
 
-export function initTables() {
+export async function initTables() {
   try {
-    pool.query(loadSql("/tables/todo-lists-table.sql"));
-    pool.query(loadSql("/tables/todo-table.sql"));
+    await pool.query(loadSql("/tables/todo-lists-table.sql"));
+    await pool.query(loadSql("/tables/todo-table.sql"));
   } catch (error) {
     console.error(error);
   }
