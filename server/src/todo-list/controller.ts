@@ -1,14 +1,11 @@
 import type { Request, Response, NextFunction } from "express";
-import pool from "../database/db";
 import * as service from "./service";
 import type { TodoListDTO, TodoListResponseDTO } from "./todo-list-dto";
 
 export const getAllTodoLists = async (_: Request, res: Response) => {
   try {
-    const response = await pool.query(`
-          SELECT * FROM todo_lists;
-          `);
-    res.send(response.rows);
+    const response = await service.getAllTodoLists();
+    res.send(response).status(200);
   } catch (error) {
     // send to error middleware
   }
@@ -21,14 +18,8 @@ export const createTodoList = async (
 ) => {
   try {
     const { list_title, done, total } = req.body;
-    const response = await pool.query(
-      `
-      INSERT INTO todo_lists (list_title, done, total)
-      VALUES ($1, $2, $3) RETURNING *;
-      `,
-      [list_title, done, total]
-    );
-    res.send(response.rows).status(201);
+    const response = await service.createTodoList(list_title, done, total)
+    res.send(response).status(201);
   } catch (err) {
     next(err);
   }
