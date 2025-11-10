@@ -35,9 +35,9 @@ export const updateTodoList = async (
 
   const setClause = keys.map((key, i) => `${key} = $${i + 1}`).join(", ");
 
-  const query = `
-    UPDATE todo_lists
-    SET ${setClause}
+  const query = 
+  `UPDATE todo_lists
+    SET ${setClause}, updated_at = current_timestamp
     WHERE id = $${keys.length + 1}
     RETURNING *;
   `;
