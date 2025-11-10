@@ -3,5 +3,6 @@ CREATE TABLE IF NOT EXISTS todo_lists (
     list_title VARCHAR(255),
     done INT,
     total INT,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW()
+    created_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
+    updated_at TIMESTAMP NOT NULL DEFAULT current_timestamp
 );
