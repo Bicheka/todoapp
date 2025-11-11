@@ -25,6 +25,7 @@ function loadSql(relativePath: string) {
 
 export async function initTables() {
   try {
+    await pool.query(loadSql("/tables/user-table.sql"));
     await pool.query(loadSql("/tables/todo-lists-table.sql"));
     await pool.query(loadSql("/tables/todo-table.sql"));
   } catch (error) {
