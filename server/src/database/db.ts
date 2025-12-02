@@ -20,7 +20,7 @@ pool.on("error", (err) => {
 export default pool;
 
 function loadSql(relativePath: string) {
-  return fs.readFileSync(import.meta.dirname + relativePath, "utf8");
+  return fs.readFileSync(import.meta.dirname + relativePath, "utf8")
 }
 
 export async function initTables() {
