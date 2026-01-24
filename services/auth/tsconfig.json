@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "hono/jsx",
+    "esModuleInterop": true, // prevents error: Module "/home/bicheka/projects/simple-auth/node_modules/form-data/index" canex" can only be default-imported using the esModuleInterop flag (ts 1259)
+  },
+}

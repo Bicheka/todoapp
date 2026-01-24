@@ -1,2 +1,2 @@
-# Todo App
-An to manage tasks
+# Tudoo
+A task managing tool
