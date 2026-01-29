@@ -24,3 +24,9 @@
 
 ```bash
 bun install
+```
+
+### Generate Better-Auth schema
+bunx --bun @better-auth/cli@1.3.4 generate --config ./src/lib/auth.ts
+
+bunx --bun @better-auth/cli generate
