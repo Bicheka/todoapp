@@ -1,6 +1,6 @@
 import { createRoute, z } from "@hono/zod-openapi";
 
-const tags = ["Todo Lists"]
+const tags = ["Todo Lists"];
 
 export const routes = {
 	getTodoLists: createRoute({
