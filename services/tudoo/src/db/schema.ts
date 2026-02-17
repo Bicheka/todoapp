@@ -7,6 +7,7 @@ import {
 	timestamp,
 	uuid,
 } from "drizzle-orm/pg-core";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod"; // drizzle-zod this is getting deprecated in v1
 
 export const todoLists = pgTable(
 	"todo_lists",
@@ -19,8 +20,10 @@ export const todoLists = pgTable(
 
 		updatedAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
 	},
-	(table) => [index("user_idx").on(table.userId)],
+	(table) => [index("user_id").on(table.userId)],
 );
+export const todoListSelectSchema = createSelectSchema(todoLists);
+export const todoListInsertSchema = createInsertSchema(todoLists);
 
 export const todos = pgTable(
 	"todos",
