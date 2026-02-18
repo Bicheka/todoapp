@@ -1,12 +1,11 @@
 import type { RouteHandler } from "@hono/zod-openapi";
-import { eq } from "drizzle-orm";
-import type { Context } from "hono";
+import { and, eq, inArray } from "drizzle-orm";
 import { db } from "../../db";
-import { todoLists } from "../../db/schema";
-import type { routes } from "./routes";
+import { todoLists } from "./todo-list.db";
+import type { routes } from "./todo-list.routes";
 
 export const handlers = {
-	getTodoLists: (async (c: Context) => {
+	getTodoLists: (async (c) => {
 		const userId = c.get("userId");
 
 		const lists = await db
@@ -17,12 +16,11 @@ export const handlers = {
 		return c.json(lists, 200);
 	}) satisfies RouteHandler<typeof routes.getTodoLists>,
 
-	createTodoList: (async (c: Context) => {
+	createTodoList: (async (c) => {
 		const userId = c.get("userId");
 
 		// parse request body
-		const body = await c.req.json();
-
+		const body = c.req.valid("json");
 		// insert into db
 		const [list] = await db
 			.insert(todoLists)

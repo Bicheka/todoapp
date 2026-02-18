@@ -23,7 +23,7 @@ export const todoLists = pgTable(
 	(table) => [index("user_id").on(table.userId)],
 );
 export const todoListSelectSchema = createSelectSchema(todoLists);
-export const todoListInsertSchema = createInsertSchema(todoLists);
+export const todoListInsertSchema = createInsertSchema(todoLists).omit({id: true, createdAt: true, updatedAt: true});
 
 export const todos = pgTable(
 	"todos",
