@@ -7,14 +7,13 @@ import { createOpenAPIDoc, createRouter } from "./openapi";
 export default function createApp() {
 	const app = createRouter();
 	app.use(logger());
-	
-	app.openAPIRegistry.registerComponent('securitySchemes', 'BearerAuth', {
-  type: 'http',
-  scheme: 'bearer',
-  bearerFormat: 'JWT',
-})
-	app.get("/doc", (c) => c.json(createOpenAPIDoc(app)));
 
+	app.openAPIRegistry.registerComponent("securitySchemes", "BearerAuth", {
+		type: "http",
+		scheme: "bearer",
+		bearerFormat: "JWT",
+	});
+	app.get("/doc", (c) => c.json(createOpenAPIDoc(app)));
 
 	app.get("/scalar", Scalar({ url: "/doc" }));
 	app.use(authMiddleware);

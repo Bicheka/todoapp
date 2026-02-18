@@ -15,7 +15,6 @@ export function createOpenAPIDoc(app: OpenAPIHono) {
 			title: packageJSON.name,
 			version: packageJSON.version,
 		},
-		security: [{BearerAuth: []}]
+		security: [{ BearerAuth: [] }],
 	});
 }
-

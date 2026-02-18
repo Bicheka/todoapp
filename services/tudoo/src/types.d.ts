@@ -1,7 +1,7 @@
-import 'hono'
+import "hono";
 
-declare module 'hono' {
-  interface ContextVariableMap {
-    userId: string
-  }
+declare module "hono" {
+	interface ContextVariableMap {
+		userId: string;
+	}
 }
